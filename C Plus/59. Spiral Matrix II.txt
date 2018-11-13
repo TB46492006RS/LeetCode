@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        if (!n)
+            return move(vector<vector<int>>(0));
+        vector<vector<int>> res(n, vector<int>(n, 0));//initialization, n2 0
+        int layer = 0, num = 1, max = n*n;
+        while (num <= max){
+            for (int i = layer; i < n - layer; ++i)//right
+                res[layer][i] = num++;
+            for (int i = layer + 1; i < n - layer; ++i)//down
+                res[i][n - layer - 1] = num++;
+            for (int i = n - layer - 2; i > layer - 1; --i)//left
+                res[n - layer - 1][i] = num++;
+            for (int i = n - layer - 2; i > layer; --i)//up
+                res[i][layer] = num++;
+            ++layer;
+        }
+        return move(res);
+    }
+};
