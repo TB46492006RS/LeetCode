@@ -14,3 +14,24 @@ public:
         return an;
     }
 };
+//////////////////////////
+class Solution {
+public:
+    int combination(int m, int n){
+        if (m == 0)return 1;
+        double res = 1, div = 1;
+        for (int i = m; i != 0; --i){
+            res *= (n--);
+            div *= i;
+        }
+        return round(res / div);
+    }
+
+    int climbStairs(int n) {
+        int res = 0, max = n;
+        for (int i = 0; i <= n / 2; ++i){
+            res += combination(i, max--);
+        }
+        return res;
+    }
+};
