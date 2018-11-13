@@ -1,0 +1,65 @@
+vector<int> spiralOrder(vector<vector<int>>& matrix) {
+    if (matrix.size() == 0)
+        return{};
+    int layer = 0;
+    int i = 0, j = 0;
+    int m = matrix.size(), n = matrix[0].size();
+    bool nowhere = false;
+    int flag = 0;
+    char dir = 'r';
+    vector<int> ans;
+    while (!nowhere){		
+        if (!flag)
+            ans.push_back(matrix[i][j]);
+        if (i - j == 1 && dir == 'u')
+            ++layer;
+        switch (dir)
+        {
+        case 'r':
+            if (j == n - layer - 1){
+                dir = 'd';
+                ++flag;
+            }
+            else{
+                ++j;
+                flag = 0;
+            }
+            break;
+        case 'd':
+            if (i == m - layer - 1){
+                dir = 'l';
+                ++flag;
+            }
+            else{
+                ++i;
+                flag = 0;
+            }
+            break;
+        case 'l':
+            if (j == layer){
+                dir = 'u';
+                ++flag;
+            }
+            else{
+                --j;
+                flag = 0;
+            }
+            break;
+        case 'u':
+            if (i == layer){
+                dir = 'r';
+                ++flag;
+            }
+            else{
+                --i;
+                flag = 0;
+            }	
+            break;
+        default:
+            break;
+        }
+        if (flag == 2)
+            nowhere = true;
+    }
+    return ans;
+}
