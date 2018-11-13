@@ -1,0 +1,16 @@
+class Solution {
+public:    
+    int climbStairs(int n) {
+        //好好学数学，这竟然是斐波那契数列
+        if (n == 1)return 1;
+        if (n == 2)return 2;
+        int an, an_1 = 2, an_2 = 1;
+        int i = 2;
+        while (i++ != n){
+            an = an_1 + an_2;
+            an_2 = an_1;
+            an_1 = an;
+        }
+        return an;
+    }
+};
