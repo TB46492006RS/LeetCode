@@ -1,0 +1,58 @@
+void addnext(vector<vector<int>>&vvi, vector<int> &vi, int col, int max)
+    {
+        if (vi.size() == max)
+        {
+            vvi.emplace_back(vi);
+            //vi.clear(); 此处不必清空，有回退操作
+            return;
+        }
+        set<int> sint;
+        for (int i = 1; i <= max; ++i)
+            sint.insert(i);
+        set<int> si;
+        for (int j = 1; j != vi.size() + 1; ++j)
+        {
+            si.insert(vi[j - 1]);
+            si.insert(vi[j - 1] + col - j);
+            si.insert(vi[j - 1] - col + j);
+        }
+        for (int i = 1; i <= max; ++i)
+        {
+            if (si.find(i) != si.end())
+                sint.erase(i);
+        }
+        if (sint.size() == 0)
+        {
+            vi.pop_back();
+            return;
+        }
+        for (int i : sint)
+        {
+            while (vi.size() >= col)//保证vi的元素不会多于列数，即回退操作
+                vi.pop_back();
+            vi.push_back(i);
+            addnext(vvi, vi, col + 1, max);
+        }		
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<int>> vvi;
+        vector<int> vi;
+        addnext(vvi, vi, 1, n);
+
+        vector<vector<string>> vvs;
+        vector<string> vs;
+        for (auto &vei : vvi)
+        {
+            vs.clear();
+            for (auto &i : vei)
+            {
+                string s(n, '.');
+                s[i - 1] = 'Q';
+                vs.emplace_back(s);
+            }
+            vvs.emplace_back(vs);
+        }
+
+        return std::move(vvs);
+    }
