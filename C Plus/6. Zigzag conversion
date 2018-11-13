@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1)
+		    return s;
+        string r;
+        int l = 2 * numRows - 2;
+        int len = s.length();
+        int n, m;
+        for (int i = 0; i < numRows; i++){
+            if (i == 0 || i == numRows - 1){
+                n = i;
+                while (n < len){
+                    r.push_back(s.at(n));
+                    n += l;
+                }
+            }
+            else{
+                n = i;
+                m = l - i;
+                while (n < len||m < len){
+                    r.push_back(s.at(n));
+                    if (m < len)
+                        r.push_back(s.at(m));
+                    n += l;
+                    m += l;
+                }
+            }
+        }
+        return r;
+    }
+};
