@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.length();
+        int len = 0;
+        unordered_map<char, int> map;
+        for (int i = 0, j = 0; j < n; ++j){
+            if ((map.find(s.at(j))) != map.end()){
+                i = (map.find(s.at(j))->second) > i ? (map.find(s.at(j))->second) : i;
+                map.erase(s.at(j));//c++ unordered_map won't add element whose key is already existed in map
+            }
+            len = len > (j - i + 1) ? len : (j - i + 1);
+            map.insert(pair<char, int>(s.at(j), j + 1));
+        }
+        return len;
+    }
+};
