@@ -1,0 +1,58 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string> res, tem;
+        int width = 0;
+        for (string s : words){
+            if (!tem.size()){
+                tem.push_back(s);
+                width = s.size();
+            }
+            else{
+                if (width + 1 + s.size() > maxWidth){
+                    if (tem.size() == 1){
+                        string str = tem.front();
+                        str.append(maxWidth - width, ' ');
+                        res.push_back(str);
+                    }		
+                    else{
+                        int spaceNum = (maxWidth - width) / (tem.size() - 1) + 1;
+                        int extraSpace = (maxWidth - width) % (tem.size() - 1);
+                        string str;
+                        str.append(tem.front());
+                        for (int i = 1; i != tem.size(); ++i){
+                            if (i <= extraSpace){
+                                str.append(spaceNum + 1, ' ');
+                                str.append(tem[i]);
+                            }
+                            else{
+                                str.append(spaceNum, ' ');
+                                str.append(tem[i]);
+                            }
+                        }
+                        res.push_back(str);
+                    }
+                    tem.clear();
+                    tem.push_back(s);
+				    width = s.size();
+                }
+                else{
+                    ++width;//space
+                    width += s.size();
+                    tem.push_back(s);
+                }
+            }
+        }
+        string str;
+        for (string st : tem){
+            str.append(st);
+            str.push_back(' ');
+        }
+        if (str.size() > maxWidth)
+            str.pop_back();
+        else
+            str.append(maxWidth - str.size(), ' ');
+        res.push_back(str);
+        return res;
+    }
+};
