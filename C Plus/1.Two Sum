@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> output;
+    vector<int> twoSum(vector<int>& nums, int target) {        
+        unordered_map<int, int> map;
+        output.clear();
+        output.push_back(-1);
+        output.push_back(-1);
+        for (vector<int>::iterator it = nums.begin(); it != nums.end(); ++it){
+            if (map.find(target - (*it)) != map.end()){
+                output[0] = map.find(target - (*it))->second;
+                output[1] = it - nums.begin();
+                return output;
+            }
+            map.insert(pair<int,int> ((*it), it - nums.begin()));
+        }
+        return output;
+    }
+};
