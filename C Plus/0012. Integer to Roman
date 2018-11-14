@@ -1,0 +1,41 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        if (num<1 || num>3999)
+        {
+            return "illegal input";
+        }
+        vector<int> vi;
+        int n = num;
+        while (n)
+        {
+            vi.push_back(n % 10);
+            n = n / 10;
+        }
+        char a[4][2] = { { 'I', 'V' }, { 'X', 'L' }, { 'C', 'D' }, { 'M' } };
+        string re, tem;
+        for (int i = 0; i != vi.size(); i++)
+        {
+            int t = vi[i];
+            if (t < 4)
+                re = string(t, a[i][0]) + re;
+            else if (t == 4)
+            {
+                tem.clear();
+                tem.push_back(a[i][0]);
+                tem.push_back(a[i][1]);
+                re = tem + re;
+            }			
+            else if (t>4 && t < 9)
+                re = a[i][1] + string(t - 5, a[i][0]) + re;
+            else
+            {
+                tem.clear();
+                tem.push_back(a[i][0]);
+                tem.push_back(a[i + 1][0]);
+                re = tem + re;
+            }		
+        }
+        return re;
+    }
+};
