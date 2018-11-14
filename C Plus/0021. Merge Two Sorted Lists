@@ -1,0 +1,88 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 本题随简单，但是有许多需要注意的地方
+1. 注意链表的初始化形式
+2. 一开始使用极其简单粗暴的思想，将链表中的数值转到vector中，然后进行排序，之后再新建链表，将值转回去，本以为会比较慢，但是事实表明，
+好像效率也挺高的，可能标准库设计的太好了？、
+3. 后来还是本着节省空间的思想，选择其中一个链表作为基准，然后将另外一个链表插入进去，但是编写比较麻烦
+4. 最后看了答案，思想比较类似，但是采用了类似编辫子的方式，选择链表中较小值编入，编写简单，而且思路简洁
+///////////////////
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode *head, *p;
+        if (!l1)
+            return l2;
+        if (!l2)
+            return l1;
+        if (l1->val < l2->val)
+        {
+            head = l1;
+            l1 = l1->next;
+        }
+        else
+        {
+            head = l2;
+            l2 = l2->next;
+        }	
+        p = head;
+        while (l1&&l2){
+            if (l1->val <= l2->val){
+                p->next = l1;
+                l1 = l1->next;
+                p = p->next;
+            }
+            else{
+                p->next = l2;
+                l2 = l2->next;
+                p = p->next;
+            }
+        }
+        if (l1)
+            p->next = l1;
+        else
+            p->next = l2;
+        return head;
+    }
+};
+///////////////
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        vector<int> v;
+        for (auto p = l1; p != NULL;p = p->next)
+        {
+            v.push_back(p->val);
+        }
+        for (auto p = l2; p != NULL; p = p->next)
+        {
+            v.push_back(p->val);
+        }
+        sort(v.begin(), v.end());
+        if (!v.size())
+		    return NULL;
+        ListNode* head = new ListNode(v[0]), *re;//注意链表的初始化方式
+        re = head;
+
+        for (int i = 1; i != v.size(); ++i){
+            ListNode* tem = new ListNode(v[i]);
+            head->next = tem;
+            head = head->next;
+        }
+        return re;
+    }
+};
