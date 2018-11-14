@@ -1,0 +1,57 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        if (s.size() == 0)
+        {
+            return true;
+        }
+        stack<char> bsta;
+        map<char, char> m = { { '(', ')' }, { '[', ']' }, { '{', '}' } };
+        for (char c:s)
+        {
+            if (bsta.empty())
+            {
+                bsta.push(c);
+                continue;
+            }
+            if (!(m.find(bsta.top()) == m.end()) && m.at(bsta.top()) == c)
+            {
+                bsta.pop();
+            }
+            else
+            {
+                bsta.push(c);
+            }
+        }
+        return bsta.empty();
+    }
+};
+////////////////
+class Solution {
+public:
+    bool isValid(string s) {
+        if (s.size() == 0)
+        {
+            return true;
+        }
+        stack<char> bsta;
+        map<char, char> m = { { '(', ')' }, { '[', ']' }, { '{', '}' } };
+        for (char c:s)
+        {
+            if (bsta.empty())
+            {
+                bsta.push(c);
+                continue;
+            }
+            if (!(m.find(bsta.top()) == m.end()) && m.at(bsta.top()) == c)
+            {
+                bsta.pop();
+            }
+            else
+            {
+                bsta.push(c);
+            }
+        }
+        return bsta.empty();
+    }
+};
