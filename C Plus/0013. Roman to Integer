@@ -1,0 +1,87 @@
+看透事物的本质，而不是简单的从外围考虑
+罗马数字的核心规则就在于小的在前就减，在后就加
+//////////////
+class Solution {
+public:
+    int romanToInt(string s) {
+        if (s == "")
+            return 0;
+        map<char, int> m = { { 'I', 1 }, { 'V', 5 }, { 'X', 10 }, { 'L', 50 }, { 'C', 100 },
+        { 'D', 500 }, { 'M', 1000 } };
+        int sum = 0;
+        for (auto it = s.cbegin(); it != s.cend() - 1; it++)
+        {		
+            if (m[*it] < m[*(it + 1)])
+                sum -= m[*it];
+            else
+                sum += m[*it];
+        }
+        sum += m[s[s.size() - 1]];
+        return sum;
+    }
+};
+////////////////////////////
+class Solution {
+public:
+    int romanToInt(string s) {
+        if (s == "")
+            return 0;
+        char a[4][2] = { { 'I', 'V' }, { 'X', 'L' }, { 'C', 'D' }, { 'M','*' } };
+        string rs = s;
+        string tem, temc;
+        int en, sum = 0;
+        for (int i = 3; i != -1; i--)
+        {
+            if (i == 3)
+            {
+                int l = rs.find_first_not_of('M');
+                tem = rs.substr(0, l);
+                rs.erase(0, l);
+            }
+            else
+            {
+                temc.clear();
+                temc.push_back(a[i][0]);
+                temc.push_back(a[i][1]);
+                temc.push_back(a[i + 1][0]);
+                int l = rs.find_first_not_of(temc);
+                if (l == -1)
+                {
+                    tem = rs;
+                    rs.clear();
+                }
+                else
+                {
+                    tem = rs.substr(0, l);
+                    rs.erase(0, l);
+                }			
+            }		
+            if (!tem.size())
+                en = 0;
+            else if (tem.find_first_not_of(a[i][0]) == string::npos)
+                en = tem.size();
+            else
+            {
+                if (tem[0] == a[i][1])
+                {
+                    en = 5 + tem.size() - 1;
+                }
+                else
+                {
+                    temc.clear();
+                    temc.push_back(a[i][0]);
+                    temc.push_back(a[i][1]);
+                    if (tem == temc)
+                        en = 4;
+                    temc.clear();
+                    temc.push_back(a[i][0]);
+                    temc.push_back(a[i + 1][0]);
+                    if (tem == temc)
+                        en = 9;                    
+                }			
+            }
+            sum = sum * 10 + en;
+        }
+        return sum;
+    }
+};
