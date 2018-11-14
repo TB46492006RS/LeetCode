@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int myAtoi(string str) {
+        int temp = 0;
+        stringstream stream(str);
+        stream>>temp;
+        return temp;
+    }
+};
+/////////////////////
+class Solution {
+public:
+    int myAtoi(string str) {
+        if (str == "")
+            return 0;
+        string s = str;
+        int index = 0;
+        if (!s.empty()){
+            s.erase(0, s.find_first_not_of(' '));
+        }
+        if (s == "")
+            return 0;
+        if (!((s.at(0)>47 && s.at(0) < 58) || s.at(0) == '-' || s.at(0) == '+'))
+            return 0;
+        int flag, sum = 0, i;
+        flag = s.at(0) - '0';
+        if (flag >= 0){
+            for (auto it = s.begin(); it != s.end(); it++){
+                i = (*it) - '0';
+                if (i >= 0 && i < 10){
+                    if (sum > INT_MAX / 10 || (sum == INT_MAX / 10 && i > 7))
+                        return INT_MAX;
+                    if (sum < INT_MIN / 10 || (sum == INT_MIN / 10 && i < -8))
+                        return INT_MIN;
+                    sum = sum * 10 + i;
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        else{
+            for (auto it = s.begin() + 1; it != s.end(); it++){
+                i = (*it) - '0';
+                if (i >= 0 && i < 10){
+                    if (flag == -3){
+                        i = -i;
+                    }
+                    if (sum > INT_MAX / 10 || (sum == INT_MAX / 10 && i > 7))
+                        return INT_MAX;
+                    if (sum < INT_MIN / 10 || (sum == INT_MIN / 10 && i < -8))
+                        return INT_MIN;								
+                    sum = sum * 10 + i;				
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        return sum;
+    }
+};
