@@ -1,0 +1,45 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 核心点：1.创建虚拟节点，作为pre节点
+2.一定要有一个额外的空间，否则只能绕来绕去，无法实现交换操作
+3.pre-1-2-3-4
+	t(2)-3-4
+	pre-1-3-4
+	t(2)-1-3-4
+	pre-t(2)-1-3-4
+	t-pre
+
+4.递归的方式，从后向前递归，先交换最后两位，依次交换之前的位置，递归返回之前交换后二者中靠前的一个，然后依次交换，相当巧妙
+//////////////////////
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (!head || !head->next) return head;
+        ListNode *t = head->next;
+        head->next = swapPairs(head->next->next);
+        t->next = head;
+        return t;
+    }
+};
+///////////
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        ListNode* dummy = new ListNode(-1), *pre = dummy;
+        dummy->next = head;//创建虚拟的pre节点
+        while (pre->next&&pre->next->next){
+            ListNode* t = pre->next->next;
+            pre->next->next = t->next;
+            t->next = pre->next;
+            pre->next = t;
+            pre = t->next;
+        }
+        return dummy->next;
+    }
+};
