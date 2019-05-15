@@ -1,0 +1,20 @@
+vector<vector<int>> permute(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> res;
+        dfs(res, nums, {});
+        return res;
+    }
+    void dfs(vector<vector<int>>& res, vector<int>& nums, vector<int> out){
+        if(out.size() == nums.size()){
+            res.push_back(out);
+            return;
+        }
+        unordered_set<int> set(out.begin(), out.end());
+        for(int i : nums){
+            if(set.find(i) == set.end()){
+                out.push_back(i);
+                dfs(res, nums, out);
+                out.pop_back();
+            }
+        }
+    }
