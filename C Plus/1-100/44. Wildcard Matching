@@ -1,0 +1,35 @@
+bool isMatch(string s, string p) {
+        //前面方法直接用递归dfs实现，可以实现，但效率很低
+        //使用动态规划可以减少计算量，重点在于寻找递归中重复的计算量	
+              int ns = s.size();
+        int np = p.size();
+        bool dp[np+1][ns+1];
+        for(int i=0;i<=np;++i){
+            for(int j=0;j<=ns;++j)  dp[i][j]=false;
+        }
+        dp[0][0] = true;
+        for(int i=1 ; i<=np ;++i){
+            
+            for(int j=0;j<=ns;j++){
+                if(dp[i-1][j]){
+                    if(p[i-1]=='*'){
+                        for(int k=j;k<=ns;k++)  dp[i][k]=true;
+                        break;
+                    }
+                    else if(p[i-1]=='?'){
+                        if(j+1<=ns){
+                            dp[i][j+1]=true;
+                        }
+                    }
+                    else{
+                        if(j+1<=ns){
+                            if(p[i-1]==s[j]){
+                                dp[i][j+1]=true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return dp[np][ns];
+    }
