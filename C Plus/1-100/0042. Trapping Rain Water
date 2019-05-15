@@ -1,0 +1,30 @@
+int trap(vector<int>& height) {  
+    //本体初始想法是构造极大值数组，然后再求极大值的极大值
+    //核心原因是因为最大值所在会影响极大值数组的"加水"
+    //改进方法是找到最大值，然后从两边出发向最大值加水
+    if(height.size() <= 2) return 0;
+    int max = 0;//最大值
+    int maxi = 0;
+    int res = 0;
+    for(int i = 0; i < height.size(); ++i){
+        if(max < height[i]){
+            max = height[i];
+            maxi = i;
+        }
+    }
+    max = 0;
+    for(int i = 0; i != maxi; ++i){
+        if(height[i] < max){
+            res += (max - height[i]);              
+        }
+        max = max >= height[i] ? max : height[i];
+    }
+    max = 0;
+    for(int i = height.size() - 1; i != maxi; --i){
+        if(height[i] < max){
+            res += (max - height[i]);    
+        }
+        max = max >= height[i] ? max : height[i];
+    }
+    return res;
+}
