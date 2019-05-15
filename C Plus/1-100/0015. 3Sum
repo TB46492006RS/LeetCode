@@ -1,0 +1,46 @@
+首先，可以利用sort函数对数组进行排列，有序数组更容易解决问题！
+不排序，时间限制问题无法解决（能力范围内）
+排序后，使用2个指针从两端逼近。
+补充：两个指针一定要相遇才可结束，因为不同数字的和可以相同
+和为0，因此可以利用正负处理
+///////////////////////
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> vvi;
+        if (nums.size() < 3)
+            return vvi;
+        vector<int> num = nums;
+        sort(num.begin(), num.end());
+        if (num.front() > 0 || num.back() < 0)
+            return{};
+        for (auto it = num.cbegin(); it != num.cend() - 2; it++)
+        {
+            if (*it > 0)
+                break;
+            if (it != num.cbegin() && (*it == *(it - 1)))
+                continue;
+            int target = -*it;
+            auto it1 = it + 1;
+            auto it2 = num.cend() - 1;
+            while (it1 < it2)
+            {
+                if (*it1 + *it2 == target)
+                {
+                    vvi.push_back({ *it, *it1, *it2 });
+                    while (it1 < it2&&*it1 == *(it1 + 1))
+                        it1++;
+                    while (it1 < it2&&*it2 == *(it2 - 1))
+                        it2--;
+                    it1++;
+                    it2--;
+                }
+                else if (*it1 + *it2 < target)
+                    it1++;
+                else
+                    it2--;
+            }
+        }	
+        return vvi;
+    }
+};
