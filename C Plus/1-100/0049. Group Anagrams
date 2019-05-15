@@ -16,3 +16,18 @@ vector<vector<string>> groupAnagrams(vector<string>& strs) {
         }
         return res;
     }
+
+vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        // use map to compare
+        vector<vector<string>> res;
+        unordered_map<string, vector<string>> map;
+        for(string str : strs){
+            string t = str;
+            sort(t.begin(), t.end());
+            map[t].push_back(str);
+        }
+        for(auto a : map){
+            res.push_back(a.second);
+        }
+        return res;
+    }
