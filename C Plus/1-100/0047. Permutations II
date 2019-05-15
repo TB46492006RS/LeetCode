@@ -1,0 +1,29 @@
+vector<vector<int>> permuteUnique(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> res;
+        sort(nums.begin(), nums.end());
+        dfs(res, nums, {});
+        return res;
+    }
+    void dfs(vector<vector<int>>& res, vector<int>& nums, vector<int> out){
+        if(out.size() == nums.size()){
+            res.push_back(out);
+            return;
+        }
+        vector<int> numleft(nums);
+        for(int i : out){
+            for(auto it = numleft.begin(); it != numleft.end(); ++it){
+                if(*it == i){
+                    numleft.erase(it);
+                    break;
+                }
+            }
+        }
+        for(int i = 0; i != numleft.size(); ++i){
+            if(i != numleft.size() - 1 && numleft[i] == numleft[i + 1])
+                continue;		
+            out.push_back(numleft[i]);
+            dfs(res, nums, out);
+            out.pop_back();		
+        }
+    }
