@@ -1,0 +1,37 @@
+void addnext(int &qn, vector<int> &vi, int col, int max)
+{
+    if (vi.size() == max)
+    {
+        ++qn;
+        return;
+    }
+    vector<bool> veb(max, true);
+    for (int j = 1; j != vi.size() + 1; ++j)
+    {
+        veb[vi[j - 1] - 1] = false;
+        if (vi[j - 1] + col - j <= max)
+            veb[vi[j - 1] + col - j - 1] = false;
+        if (vi[j - 1] - col + j > 0)
+            veb[vi[j - 1] - col + j - 1] = false;
+    }
+    for (int i = 0; i != max; ++i)
+    {
+        if (veb[i])
+        {
+            while (vi.size() >= col)//保证vi的元素不会多于列数，即回退操作
+                vi.pop_back();
+            vi.push_back(i + 1);
+            addnext(qn, vi, col + 1, max);
+        }
+    }		
+}
+
+int totalNQueens(int n) {
+    if (n == 0)
+        return 0;
+    int qn = 0;
+    vector<int> vi;
+    addnext(qn, vi, 1, n);
+
+    return qn;
+}
