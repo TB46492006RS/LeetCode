@@ -1,0 +1,48 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int flag = false;
+        string res;
+        for (auto ia = a.rbegin(), ib = b.rbegin();
+            ia != a.rend() && ib != b.rend(); ++ia, ++ib){
+            int a = *ia - '0', b = *ib - '0';
+            int c = a + b + flag;
+            if (c > 1){
+                flag = true;
+                c -= 2;
+            }
+            else{
+                flag = false;			
+            }
+            res.push_back('0' + c);
+        }
+        string remain;
+        if (a.size() > b.size())
+            remain = a.substr(0, a.size() - b.size());
+        else
+            remain = b.substr(0, b.size() - a.size());
+        for (auto ir = remain.rbegin(); ir != remain.rend(); ++ir){
+            if (flag){
+                int r = *ir - '0';
+                int c = r + flag;
+                if (c == 2){
+                    flag = true;
+                    *ir = '0';
+                }
+                else{
+                    flag = false;
+                    *ir = '1';
+                    break;
+                }
+            }
+            else
+                break;
+        }
+        if (flag){
+            remain.insert(remain.begin(), '1');
+        }
+        std::reverse(res.begin(), res.end());
+        res.insert(0, remain);
+        return res;
+    }
+};
