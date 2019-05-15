@@ -1,0 +1,22 @@
+int jump(vector<int>& nums) {
+        // greedy        
+        int n = nums.size();
+        int res = 0;
+        int cur = 0;
+        while(cur != n - 1){
+            if(cur + nums[cur] >= n - 1)
+                return res + 1;
+            int next = -1;
+            int max = 0;
+            for(int i = cur + 1; i != cur + nums[cur] + 1; ++i){
+                int dis = nums[i] - nums[cur] - cur + i;
+                if(max < dis){
+                    max = dis;
+                    next = i;
+                }
+            }
+            cur = next;
+            ++res;
+        }
+        return res;
+    }
