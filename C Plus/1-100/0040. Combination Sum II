@@ -1,0 +1,21 @@
+vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+    sort(candidates.begin(), candidates.end());
+    vector<vector<int>> res;
+    combinationSum2DFS(candidates, target, 0, {}, res);
+    return vector<vector<int>>(res.begin(), res.end());
+}
+
+void combinationSum2DFS(vector<int>& candidates, int target, int start, vector<int> out, vector<vector<int>>& res){
+    if(target < 0) return;
+    if(target == 0) {
+        res.push_back(out);
+        return;
+    }
+    for(int i = start; i < candidates.size(); ++i){
+        if(candidates[i] > target) continue;//stop deeper loop
+        if(i > start && candidates[i] == candidates[i - 1]) continue;//avoid same number in one loop
+        out.push_back(candidates[i]);
+        combinationSum2DFS(candidates, target - candidates[i], i + 1, out, res);
+        out.pop_back();
+    }
+}
