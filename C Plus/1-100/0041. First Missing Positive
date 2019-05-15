@@ -1,0 +1,34 @@
+int firstMissingPositive(vector<int>& nums) {
+    //cannot use sort function, because sort()'s efficency is nlgn
+    //the problem need o(n) efficency and constant space	
+
+    /*unordered_set<int> set;
+    for(int i : nums)
+    {
+        set.insert(i)
+    }
+    int n = nums.size();
+    for(int i = 1; i != n + 1; ++i)
+    {
+        if(set.find(i) == set.end())
+            return i;
+    }
+    return n + 1;*/
+    //use unordered_set to get o(n), not correct, the find efficency in unordered_set is logn
+    //but leetcode access that
+
+    //put number in right place, not sort, eg, 5 in fifth place
+    //then the first number in wrong place is the firstMissingPositive
+    int n = nums.size();
+    for(int i = 0; i != n; ++i)
+    {
+        while(nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1])
+            swap(nums[i], nums[nums[i] - 1]);
+    }
+    for(int i = 0; i != n; ++i)
+    {
+        if(nums[i] != i + 1)
+            return i + 1;
+    }
+    return n + 1;
+}
